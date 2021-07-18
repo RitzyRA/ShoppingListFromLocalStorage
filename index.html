@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <header id="main-header" class="bg-success text-white p-4 mb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 id="header-title">Item Lister</h1>
+                </div>
+                <div class="col-md-6 align-self-center">
+                    <input type="text" class="form-control" id="filter" placeholder="Search Items..." />
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div id="main" class="card card-body">
+            <h2 class="title">Add Items</h2>
+            <form id="addForm" class="form-inline mb-3 justify-content-between">
+                <div>Enter name: </div>
+                <input type="text" class="form-control mr-2" id="itemTitle" required />
+                <div>Enter quantity: </div>
+                <input type="number" class="form-control mr-2" id="itemCount" required />
+                <div>Enter price, €: </div>
+                <input type="number" class="form-control mr-2" id="itemPrice" required />
+                <input type="submit" class="btn btn-dark" value="Submit" />
+            </form>
+            <h2 class="title">Items</h2>
+            <ul id="items" class="list-group"></ul>
+        </div>
+    </div>
+</body>
+<script>
+    var form = document.getElementById("addForm");
+    var itemList = document.getElementById("items");
+
+    form.addEventListener("submit", addItem);
+
+    let items = [];
+    const ul = document.getElementById("items");
+
+    function loadItems() {
+
+        if (JSON.parse(localStorage.getItem("items")) !== null) {
+            let itemsFromStorage = JSON.parse(localStorage.getItem("items"));
+
+            for (var i = 0; i < itemsFromStorage.length; i++) {
+                var li = document.createElement("li");
+                li.className = "list-group-item flex-column form-inline";
+
+                ul.appendChild(li);
+
+                li.appendChild(document.createTextNode("Name: "));
+                var inputTitle = document.createElement("input");
+                inputTitle.className = "inputTitle form-control col-3";
+                inputTitle.readOnly = true;
+                inputTitle.value = itemsFromStorage[i].title;
+                inputTitle.id = "title" + i;
+                li.appendChild(inputTitle);
+
+                li.appendChild(document.createTextNode(" Quantity: "));
+                var inputCount = document.createElement("input");
+                inputCount.className = "inputCount form-control col-2";
+                inputCount.readOnly = true;
+                inputCount.type = "number";
+                inputCount.id = "count" + i;
+                inputCount.value = itemsFromStorage[i].count;
+                li.appendChild(inputCount);
+
+                li.appendChild(document.createTextNode(" Price (€): "));
+                var inputPrice = document.createElement("input");
+                inputPrice.className = "inputPrice form-control col-2";
+                inputPrice.readOnly = true;
+                inputPrice.type = "number";
+                inputPrice.id = "price" + i;
+                inputPrice.value = itemsFromStorage[i].price;
+                li.appendChild(inputPrice);
+
+            }
+
+            items = itemsFromStorage;
+            localStorage.setItem("items", JSON.stringify(items));
+        }
+
+    }
+
+    function addItem(e) {
+        e.preventDefault();
+        createItem();
+    }
+
+    let clearInput = () => {
+        document.getElementById("itemTitle").value = "";
+        document.getElementById("itemCount").value = "";
+        document.getElementById("itemPrice").value = "";
+    };
+
+
+    function createItem(item) {
+
+        if (items.length == 0) {
+            var id = 0;
+        }
+        else {
+            var id = JSON.parse(localStorage.getItem("items")).length;
+        }
+        let itemTitle = document.getElementById("itemTitle").value;
+        let itemCount = parseInt(document.getElementById("itemCount").value);
+        let itemPrice = parseInt(document.getElementById("itemPrice").value);
+
+        item = { "id": id, "title": itemTitle, "count": itemCount, "price": itemPrice };
+        items.push(item);
+
+        localStorage.setItem("items", JSON.stringify(items));
+
+        var li = document.createElement("li");
+        li.className = "list-group-item flex-column form-inline";
+
+        ul.appendChild(li);
+
+        li.appendChild(document.createTextNode("Name: "));
+        var inputTitle = document.createElement("input");
+        inputTitle.className = "inputTitle form-control col-3";
+        inputTitle.readOnly = true;
+        inputTitle.value = itemTitle;
+        inputTitle.id = "title" + id;
+        li.appendChild(inputTitle);
+
+        li.appendChild(document.createTextNode(" Quantity: "));
+        var inputCount = document.createElement("input");
+        inputCount.className = "inputCount form-control col-2";
+        inputCount.readOnly = true;
+        inputCount.type = "number";
+        inputCount.id = "count" + id;
+        inputCount.value = itemCount;
+        li.appendChild(inputCount);
+
+        li.appendChild(document.createTextNode(" Price (€): "));
+        var inputPrice = document.createElement("input");
+        inputPrice.className = "inputPrice form-control col-2";
+        inputPrice.readOnly = true;
+        inputPrice.type = "number";
+        inputPrice.id = "price" + id;
+        inputPrice.value = itemPrice;
+        li.appendChild(inputPrice);
+
+        clearInput();
+    }
+
+    loadItems();
+
+</script>
+
+</html>
