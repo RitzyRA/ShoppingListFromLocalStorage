@@ -47,13 +47,20 @@
     let items = [];
     const ul = document.getElementById("items");
     let id = 0;
-    let lastId = 0;
-    localStorage.setItem("last_id", lastId);
+    localStorage.setItem("last_id", id);
 
     function loadItems() {
 
         if (JSON.parse(localStorage.getItem("items")) !== null) {
             let itemsFromStorage = JSON.parse(localStorage.getItem("items"));
+
+            let max = 0;
+            itemsFromStorage.forEach(item => {
+                if (item.id > max) {
+                    max = item.id;
+                }
+            })
+            id = max;
 
             for (var i = 0; i < itemsFromStorage.length; i++) {
                 var li = document.createElement("li");
@@ -66,7 +73,7 @@
                 inputTitle.className = "inputTitle form-control col-3";
                 inputTitle.readOnly = true;
                 inputTitle.value = itemsFromStorage[i].title;
-                inputTitle.id = "title" + id;
+                inputTitle.id = "title" + itemsFromStorage[i].id;
                 li.appendChild(inputTitle);
 
                 li.appendChild(document.createTextNode(" Quantity: "));
@@ -74,7 +81,7 @@
                 inputCount.className = "inputCount form-control col-2";
                 inputCount.readOnly = true;
                 inputCount.type = "number";
-                inputCount.id = "count" + id;
+                inputCount.id = "count" + itemsFromStorage[i].id;
                 inputCount.value = itemsFromStorage[i].count;
                 li.appendChild(inputCount);
 
@@ -83,20 +90,14 @@
                 inputPrice.className = "inputPrice form-control col-2";
                 inputPrice.readOnly = true;
                 inputPrice.type = "number";
-                inputPrice.id = "price" + id;
+                inputPrice.id = "price" + itemsFromStorage[i].id;
                 inputPrice.value = itemsFromStorage[i].price;
                 li.appendChild(inputPrice);
-
-                id++;
-                
-
             }
             items = itemsFromStorage;
             localStorage.setItem("items", JSON.stringify(items));
-            lastId = id;
-            localStorage.setItem("last_id", JSON.stringify(lastId));
+            localStorage.setItem("last_id", JSON.stringify(id));
         }
-
     }
 
     function addItem(e) {
@@ -112,7 +113,6 @@
 
 
     function createItem(item) {
-
         if (items.length == 0) {
             id = 0;
         }
@@ -159,8 +159,7 @@
         inputPrice.value = itemPrice;
         li.appendChild(inputPrice);
 
-        lastId = id;
-        localStorage.setItem("last_id", JSON.stringify(lastId));
+        localStorage.setItem("last_id", JSON.stringify(id));
 
         clearInput();
     }
