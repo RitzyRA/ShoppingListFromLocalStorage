@@ -46,6 +46,9 @@
 
     let items = [];
     const ul = document.getElementById("items");
+    let id = 0;
+    let lastId = 0;
+    localStorage.setItem("last_id", lastId);
 
     function loadItems() {
 
@@ -63,7 +66,7 @@
                 inputTitle.className = "inputTitle form-control col-3";
                 inputTitle.readOnly = true;
                 inputTitle.value = itemsFromStorage[i].title;
-                inputTitle.id = "title" + i;
+                inputTitle.id = "title" + id;
                 li.appendChild(inputTitle);
 
                 li.appendChild(document.createTextNode(" Quantity: "));
@@ -71,7 +74,7 @@
                 inputCount.className = "inputCount form-control col-2";
                 inputCount.readOnly = true;
                 inputCount.type = "number";
-                inputCount.id = "count" + i;
+                inputCount.id = "count" + id;
                 inputCount.value = itemsFromStorage[i].count;
                 li.appendChild(inputCount);
 
@@ -80,14 +83,18 @@
                 inputPrice.className = "inputPrice form-control col-2";
                 inputPrice.readOnly = true;
                 inputPrice.type = "number";
-                inputPrice.id = "price" + i;
+                inputPrice.id = "price" + id;
                 inputPrice.value = itemsFromStorage[i].price;
                 li.appendChild(inputPrice);
 
-            }
+                id++;
+                
 
+            }
             items = itemsFromStorage;
             localStorage.setItem("items", JSON.stringify(items));
+            lastId = id;
+            localStorage.setItem("last_id", JSON.stringify(lastId));
         }
 
     }
@@ -107,10 +114,10 @@
     function createItem(item) {
 
         if (items.length == 0) {
-            var id = 0;
+            id = 0;
         }
         else {
-            var id = JSON.parse(localStorage.getItem("items")).length;
+            id = JSON.parse(localStorage.getItem("last_id")) + 1;
         }
         let itemTitle = document.getElementById("itemTitle").value;
         let itemCount = parseInt(document.getElementById("itemCount").value);
@@ -151,6 +158,9 @@
         inputPrice.id = "price" + id;
         inputPrice.value = itemPrice;
         li.appendChild(inputPrice);
+
+        lastId = id;
+        localStorage.setItem("last_id", JSON.stringify(lastId));
 
         clearInput();
     }
