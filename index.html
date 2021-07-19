@@ -93,6 +93,14 @@
                 inputPrice.id = "price" + itemsFromStorage[i].id;
                 inputPrice.value = itemsFromStorage[i].price;
                 li.appendChild(inputPrice);
+
+                var deleteBtn = document.createElement("button");
+                deleteBtn.className = "btn btn-danger btn-sm float-right delete";
+                deleteBtn.id = itemsFromStorage[i].id;
+                deleteBtn.onclick = function () { remove(this) };
+                deleteBtn.appendChild(document.createTextNode("X"));
+                li.appendChild(deleteBtn);
+                itemList.appendChild(li);
             }
             items = itemsFromStorage;
             localStorage.setItem("items", JSON.stringify(items));
@@ -159,9 +167,34 @@
         inputPrice.value = itemPrice;
         li.appendChild(inputPrice);
 
+        var deleteBtn = document.createElement("button");
+        deleteBtn.className = "btn btn-danger btn-sm float-right delete";
+        deleteBtn.id = id;
+        deleteBtn.onclick = function () { remove(this) };
+        deleteBtn.appendChild(document.createTextNode("X"));
+        li.appendChild(deleteBtn);
+        itemList.appendChild(li);
+
         localStorage.setItem("last_id", JSON.stringify(id));
 
         clearInput();
+    }
+
+    function remove(e) {
+        let itemsFromStorage = JSON.parse(localStorage.getItem("items"));
+
+        if (confirm("Are You Sure?")) {
+            var liToRemove = e.parentElement;
+            itemList.removeChild(liToRemove);
+
+            for (var i = 0; i < itemsFromStorage.length; i++) {
+                if (e.id == itemsFromStorage[i].id) {
+                    itemsFromStorage.splice(i, 1);
+                    items = itemsFromStorage;
+                    localStorage.setItem("items", JSON.stringify(items));
+                }
+            }
+        }
     }
 
     loadItems();
