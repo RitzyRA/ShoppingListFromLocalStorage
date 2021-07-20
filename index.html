@@ -24,22 +24,26 @@
     <div class="container">
         <div id="main" class="card card-body">
             <h2 class="title">Add Items</h2>
-            <form id="addForm" class="form-inline mb-3 justify-content-between">
-                <div>Enter name: </div>
-                <input type="text" class="form-control mr-2" id="itemTitle" required />
-                <div>Enter quantity: </div>
-                <input type="number" class="form-control mr-2" id="itemCount" required />
-                <div>Enter price, €: </div>
-                <input type="number" class="form-control mr-2" id="itemPrice" required />
-                <input type="submit" class="btn btn-dark" value="Submit" />
+            <form id="addForm" class="mb-3 justify-content-between">
+                <div class="col-auto mb-1">
+                    Enter name: 
+                    <input type="text" class="form-control mr-1" id="itemTitle" required />
+                </div>
+                <div class="col-auto mb-1">
+                    Enter quantity: 
+                    <input type="number" class="form-control mr-1" id="itemCount" required />
+                </div>
+                <div class="col-auto mb-3">
+                    Enter price, €: 
+                    <input type="number" class="form-control mr-1" id="itemPrice" required />
+                </div>
+                <div class="col-auto"><input type="submit" class="btn btn-dark col-12" value="Submit" /></div>
             </form>
             <h2 class="title">Items</h2>
             <ul id="items" class="list-group"></ul>
-            <div class="list-group-item flex-column form-inline">
-                <input type="number" class="form-control float-right d-flex align-self-center justify-content-center"
-                    id="totalPrice" readonly />
-                <p class="float-right d-flex mr-2 mt-1">Grand total (€):</p>
-
+            <div class="list-group-item form-inline d-flex justify-content-sm-end">
+                <label class="mr-1">Grand total (€):</label>
+                <input type="number" class="form-control" id="totalPrice" readonly />
             </div>
         </div>
     </div>
@@ -79,7 +83,7 @@
 
                 li.appendChild(document.createTextNode("Name: "));
                 var inputTitle = document.createElement("input");
-                inputTitle.className = "inputTitle form-control col-3";
+                inputTitle.className = "inputTitle form-control col-xl-3";
                 inputTitle.readOnly = true;
                 inputTitle.value = itemsFromStorage[i].title;
                 inputTitle.id = "title" + itemsFromStorage[i].id;
@@ -87,7 +91,7 @@
 
                 li.appendChild(document.createTextNode(" Quantity: "));
                 var inputCount = document.createElement("input");
-                inputCount.className = "inputCount form-control col-1";
+                inputCount.className = "inputCount form-control col-12 col-xl-1";
                 inputCount.readOnly = true;
                 inputCount.type = "number";
                 inputCount.id = "count" + itemsFromStorage[i].id;
@@ -96,7 +100,7 @@
 
                 li.appendChild(document.createTextNode(" Price (€): "));
                 var inputPrice = document.createElement("input");
-                inputPrice.className = "inputPrice form-control col-2";
+                inputPrice.className = "inputPrice form-control col-12 col-xl-2";
                 inputPrice.readOnly = true;
                 inputPrice.type = "number";
                 inputPrice.id = "price" + itemsFromStorage[i].id;
@@ -105,7 +109,7 @@
 
                 li.appendChild(document.createTextNode(" Total (€): "));
                 var inputTotal = document.createElement("input");
-                inputTotal.className = "inputTotal form-control col-2";
+                inputTotal.className = "inputTotal form-control col-12 col-xl-2";
                 inputTotal.readOnly = true;
                 inputTotal.type = "number";
                 inputTotal.id = "total" + itemsFromStorage[i].id;
@@ -179,7 +183,7 @@
 
         li.appendChild(document.createTextNode("Name: "));
         var inputTitle = document.createElement("input");
-        inputTitle.className = "inputTitle form-control col-3";
+        inputTitle.className = "inputTitle form-control col-12 col-xl-3";
         inputTitle.readOnly = true;
         inputTitle.value = itemTitle;
         inputTitle.id = "title" + id;
@@ -187,7 +191,7 @@
 
         li.appendChild(document.createTextNode(" Quantity: "));
         var inputCount = document.createElement("input");
-        inputCount.className = "inputCount form-control col-1";
+        inputCount.className = "inputCount form-control col-12 col-xl-1";
         inputCount.readOnly = true;
         inputCount.type = "number";
         inputCount.id = "count" + id;
@@ -196,7 +200,7 @@
 
         li.appendChild(document.createTextNode(" Price (€): "));
         var inputPrice = document.createElement("input");
-        inputPrice.className = "inputPrice form-control col-2";
+        inputPrice.className = "inputPrice form-control col-12 col-xl-2";
         inputPrice.readOnly = true;
         inputPrice.type = "number";
         inputPrice.id = "price" + id;
@@ -205,7 +209,7 @@
 
         li.appendChild(document.createTextNode(" Total (€): "));
         var inputTotal = document.createElement("input");
-        inputTotal.className = "inputTotal form-control col-2";
+        inputTotal.className = "inputTotal form-control col-12 col-xl-2";
         inputTotal.readOnly = true;
         inputTotal.type = "number";
         inputTotal.id = "total" + id;
@@ -264,11 +268,11 @@
         if (e.target.classList.contains("update")) {
             let id = e.target.id.replace(/\D/g, "");
             document.getElementById("title" + id).readOnly = false;
-            document.getElementById("title" + id).className = "inputTitle form-control col-3 text-dark";
+            document.getElementById("title" + id).className = "inputTitle form-control col-12 col-xl-3 text-dark";
             document.getElementById("count" + id).readOnly = false;
-            document.getElementById("count" + id).className = "inputCount form-control col-1 text-dark";
+            document.getElementById("count" + id).className = "inputCount form-control col-12 col-xl-1 text-dark";
             document.getElementById("price" + id).readOnly = false;
-            document.getElementById("price" + id).className = "inputPrice form-control col-2 text-dark";
+            document.getElementById("price" + id).className = "inputPrice form-control col-12 col-xl-2 text-dark";
             document.getElementById(e.target.id).style.display = "none";
             document.getElementById("save" + id).style.display = "block";
         }
@@ -292,11 +296,11 @@
             }
         }
         document.getElementById("title" + id).readOnly = true;
-        document.getElementById("title" + id).className = "inputTitle form-control col-3";
+        document.getElementById("title" + id).className = "inputTitle form-control col-12 col-xl-3";
         document.getElementById("count" + id).readOnly = true;
-        document.getElementById("count" + id).className = "inputCount form-control col-1";
+        document.getElementById("count" + id).className = "inputCount form-control col-12 col-xl-1";
         document.getElementById("price" + id).readOnly = true;
-        document.getElementById("price" + id).className = "inputPrice form-control col-2";
+        document.getElementById("price" + id).className = "inputPrice form-control col-12 col-xl-2";
         document.getElementById("update" + id).style.display = "block";
         document.getElementById("save" + id).style.display = "none";
         calcSum();
