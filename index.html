@@ -43,6 +43,7 @@
     var itemList = document.getElementById("items");
 
     form.addEventListener("submit", addItem);
+    itemList.addEventListener("click", updateItem);
 
     let items = [];
     const ul = document.getElementById("items");
@@ -100,6 +101,22 @@
                 deleteBtn.onclick = function () { remove(this) };
                 deleteBtn.appendChild(document.createTextNode("X"));
                 li.appendChild(deleteBtn);
+                itemList.appendChild(li);
+
+                var updateBtn = document.createElement("button");
+                updateBtn.className = "btn btn-warning btn-sm float-right mx-2 update";
+                updateBtn.id = "update" + itemsFromStorage[i].id;
+                updateBtn.appendChild(document.createTextNode("Update"));
+                li.appendChild(updateBtn);
+                itemList.appendChild(li);
+
+                var saveBtn = document.createElement("button");
+                saveBtn.className = "btn btn-secondary btn-sm float-right mx-2 save";
+                saveBtn.style.display = "none";
+                saveBtn.id = "save" + itemsFromStorage[i].id;
+                saveBtn.onclick = function () { saveChanges(this) };
+                saveBtn.appendChild(document.createTextNode("Save"));
+                li.appendChild(saveBtn);
                 itemList.appendChild(li);
             }
             items = itemsFromStorage;
@@ -175,6 +192,22 @@
         li.appendChild(deleteBtn);
         itemList.appendChild(li);
 
+        var updateBtn = document.createElement("button");
+        updateBtn.className = "btn btn-warning btn-sm float-right mx-2 update";
+        updateBtn.id = "update" + id;
+        updateBtn.appendChild(document.createTextNode("Update"));
+        li.appendChild(updateBtn);
+        itemList.appendChild(li);
+
+        var saveBtn = document.createElement("button");
+        saveBtn.className = "btn btn-secondary btn-sm float-right mx-2 save";
+        saveBtn.style.display = "none";
+        saveBtn.id = "save" + id;
+        saveBtn.onclick = function () { saveChanges(this) };
+        saveBtn.appendChild(document.createTextNode("Save"));
+        li.appendChild(saveBtn);
+        itemList.appendChild(li);
+
         localStorage.setItem("last_id", JSON.stringify(id));
 
         clearInput();
@@ -194,6 +227,60 @@
                     localStorage.setItem("items", JSON.stringify(items));
                 }
             }
+        }
+    }
+
+    function updateItem(e) {
+        if (e.target.classList.contains("update")) {
+            let id = e.target.id.replace(/\D/g, "");
+            document.getElementById("title" + id).readOnly = false;
+            document.getElementById("title" + id).className = "inputTitle form-control col-3 text-dark";
+            document.getElementById("count" + id).readOnly = false;
+            document.getElementById("count" + id).className = "inputCount form-control col-2 text-dark";
+            document.getElementById("price" + id).readOnly = false;
+            document.getElementById("price" + id).className = "inputPrice form-control col-2 text-dark";
+            document.getElementById(e.target.id).style.display = "none";
+            document.getElementById("save" + id).style.display = "block";
+        }
+    }
+
+    function saveChanges(e) {
+        let id = e.id.replace(/\D/g, "");
+        let title = document.getElementById("title" + id).value;
+        let count = document.getElementById("count" + id).value;
+        let price = document.getElementById("price" + id).value;
+
+        let itemsFromStorage = JSON.parse(localStorage.getItem("items"));
+        for (var i = 0; i < itemsFromStorage.length; i++) {
+            if (itemsFromStorage[i].id == id) {
+                itemsFromStorage[i].title = title;
+                itemsFromStorage[i].count = count;
+                itemsFromStorage[i].price = price;
+                items = itemsFromStorage;
+                localStorage.setItem("items", JSON.stringify(items));
+            }
+        }
+        document.getElementById("title" + id).readOnly = true;
+        document.getElementById("title" + id).className = "inputTitle form-control col-3";
+        document.getElementById("count" + id).readOnly = true;
+        document.getElementById("count" + id).className = "inputCount form-control col-2";
+        document.getElementById("price" + id).readOnly = true;
+        document.getElementById("price" + id).className = "inputPrice form-control col-2";
+        document.getElementById(e.id).style.display = "block";
+        document.getElementById("save" + id).style.display = "none";
+    }
+
+    function updateItem(e) {
+        if (e.target.classList.contains("update")) {
+            let id = e.target.id.replace(/\D/g, "");
+            document.getElementById("title" + id).readOnly = false;
+            document.getElementById("title" + id).className = "inputTitle form-control col-3 text-dark";
+            document.getElementById("count" + id).readOnly = false;
+            document.getElementById("count" + id).className = "inputCount form-control col-2 text-dark";
+            document.getElementById("price" + id).readOnly = false;
+            document.getElementById("price" + id).className = "inputPrice form-control col-2 text-dark";
+            document.getElementById(e.target.id).style.display = "none";
+            document.getElementById("save" + id).style.display = "block";
         }
     }
 
