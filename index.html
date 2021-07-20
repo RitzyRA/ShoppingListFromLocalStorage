@@ -41,9 +41,11 @@
 <script>
     var form = document.getElementById("addForm");
     var itemList = document.getElementById("items");
+    var filter = document.getElementById("filter");
 
     form.addEventListener("submit", addItem);
     itemList.addEventListener("click", updateItem);
+    filter.addEventListener("keyup", filterItems);
 
     let items = [];
     const ul = document.getElementById("items");
@@ -282,6 +284,22 @@
             document.getElementById(e.target.id).style.display = "none";
             document.getElementById("save" + id).style.display = "block";
         }
+    }
+
+    function filterItems(e) {
+        var text = e.target.value.toLowerCase();
+        var items = itemList.getElementsByTagName("li");
+        Array.from(items).forEach(function (item) {
+            var inputItems = item.getElementsByClassName("inputTitle");
+            Array.from(inputItems).forEach(function (inputItem) {
+                var itemName = inputItem.value;
+                if (itemName.toLowerCase().indexOf(text) != -1) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        });
     }
 
     loadItems();
