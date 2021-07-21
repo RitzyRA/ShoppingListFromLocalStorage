@@ -31,11 +31,11 @@
                 </div>
                 <div class="col-auto mb-1">
                     Enter quantity: 
-                    <input type="number" class="form-control mr-1" id="itemCount" required />
+                    <input type="number" class="form-control mr-1" id="itemCount" step=".01" min="0" required />
                 </div>
                 <div class="col-auto mb-3">
                     Enter price, €: 
-                    <input type="number" class="form-control mr-1" id="itemPrice" required />
+                    <input type="number" class="form-control mr-1" id="itemPrice" step=".01" min="0" required />
                 </div>
                 <div class="col-auto"><input type="submit" class="btn btn-dark col-12" value="Submit" /></div>
             </form>
@@ -94,6 +94,8 @@
                 inputCount.className = "inputCount form-control col-12 col-xl-1";
                 inputCount.readOnly = true;
                 inputCount.type = "number";
+                inputCount.step = ".01";
+                inputCount.min = "0";
                 inputCount.id = "count" + itemsFromStorage[i].id;
                 inputCount.value = itemsFromStorage[i].count;
                 li.appendChild(inputCount);
@@ -103,6 +105,8 @@
                 inputPrice.className = "inputPrice form-control col-12 col-xl-2";
                 inputPrice.readOnly = true;
                 inputPrice.type = "number";
+                inputPrice.step = ".01";
+                inputPrice.min = "0";
                 inputPrice.id = "price" + itemsFromStorage[i].id;
                 inputPrice.value = itemsFromStorage[i].price;
                 li.appendChild(inputPrice);
@@ -168,8 +172,8 @@
             id = JSON.parse(localStorage.getItem("last_id")) + 1;
         }
         let itemTitle = document.getElementById("itemTitle").value;
-        let itemCount = parseInt(document.getElementById("itemCount").value);
-        let itemPrice = parseInt(document.getElementById("itemPrice").value);
+        let itemCount = parseFloat(document.getElementById("itemCount").value);
+        let itemPrice = parseFloat(document.getElementById("itemPrice").value);
 
         item = { "id": id, "title": itemTitle, "count": itemCount, "price": itemPrice };
         items.push(item);
@@ -194,6 +198,8 @@
         inputCount.className = "inputCount form-control col-12 col-xl-1";
         inputCount.readOnly = true;
         inputCount.type = "number";
+        inputCount.step = ".01";
+        inputCount.min = "0";
         inputCount.id = "count" + id;
         inputCount.value = itemCount;
         li.appendChild(inputCount);
@@ -203,6 +209,8 @@
         inputPrice.className = "inputPrice form-control col-12 col-xl-2";
         inputPrice.readOnly = true;
         inputPrice.type = "number";
+        inputPrice.step = ".01";
+        inputPrice.min = "0";
         inputPrice.id = "price" + id;
         inputPrice.value = itemPrice;
         li.appendChild(inputPrice);
@@ -212,6 +220,7 @@
         inputTotal.className = "inputTotal form-control col-12 col-xl-2";
         inputTotal.readOnly = true;
         inputTotal.type = "number";
+        inputTotal.step = ".01";
         inputTotal.id = "total" + id;
         inputTotal.value = inputCount.value * inputPrice.value;
         li.appendChild(inputTotal);
@@ -281,8 +290,8 @@
     function saveChanges(e) {
         let id = e.id.replace(/\D/g, "");
         let title = document.getElementById("title" + id).value;
-        let count = parseInt(document.getElementById("count" + id).value);
-        let price = parseInt(document.getElementById("price" + id).value);
+        let count = parseFloat(document.getElementById("count" + id).value);
+        let price = parseFloat(document.getElementById("price" + id).value);
         document.getElementById("total" + id).value = count * price;
 
         let itemsFromStorage = JSON.parse(localStorage.getItem("items"));
