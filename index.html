@@ -117,7 +117,7 @@
                 li.appendChild(inputTotal);
 
                 var deleteBtn = document.createElement("button");
-                deleteBtn.className = "btn btn-danger btn-sm float-right delete";
+                deleteBtn.className = "btn btn-outline-danger btn-sm float-right delete";
                 deleteBtn.id = itemsFromStorage[i].id;
                 deleteBtn.onclick = function () { remove(this) };
                 deleteBtn.appendChild(document.createTextNode("X"));
@@ -125,7 +125,7 @@
                 itemList.appendChild(li);
 
                 var updateBtn = document.createElement("button");
-                updateBtn.className = "btn btn-warning btn-sm float-right mx-2 update";
+                updateBtn.className = "btn btn-outline-secondary btn-sm float-right mx-2 update";
                 updateBtn.id = "update" + itemsFromStorage[i].id;
                 updateBtn.appendChild(document.createTextNode("Update"));
                 li.appendChild(updateBtn);
@@ -222,7 +222,7 @@
         li.appendChild(inputTotal);
 
         var deleteBtn = document.createElement("button");
-        deleteBtn.className = "btn btn-danger btn-sm float-right delete";
+        deleteBtn.className = "btn btn-outline-danger btn-sm float-right delete";
         deleteBtn.id = id;
         deleteBtn.onclick = function () { remove(this) };
         deleteBtn.appendChild(document.createTextNode("X"));
@@ -230,7 +230,7 @@
         itemList.appendChild(li);
 
         var updateBtn = document.createElement("button");
-        updateBtn.className = "btn btn-warning btn-sm float-right mx-2 update";
+        updateBtn.className = "btn btn-outline-secondary btn-sm float-right mx-2 update";
         updateBtn.id = "update" + id;
         updateBtn.appendChild(document.createTextNode("Update"));
         li.appendChild(updateBtn);
@@ -280,6 +280,14 @@
             document.getElementById("price" + id).className = "inputPrice form-control col-2 text-dark";
             document.getElementById(e.target.id).style.display = "none";
             document.getElementById("save" + id).style.display = "block";
+            let updateButtonList = document.getElementsByClassName("update");
+            for(let i = 0; i < updateButtonList.length; i++){
+                updateButtonList[i].disabled = true;
+            }
+            let deleteButtonList = document.getElementsByClassName("delete");
+            for(let i = 0; i < deleteButtonList.length; i++){
+                deleteButtonList[i].disabled = true;
+            }
         }
     }
 
@@ -309,6 +317,14 @@
         document.getElementById("update" + id).style.display = "block";
         document.getElementById("save" + id).style.display = "none";
         calcSum();
+        let updateButtonList = document.getElementsByClassName("update");
+        for(let i = 0; i < updateButtonList.length; i++){
+            updateButtonList[i].disabled = false;
+        }
+        let deleteButtonList = document.getElementsByClassName("delete");
+        for(let i = 0; i < deleteButtonList.length; i++){
+            deleteButtonList[i].disabled = false;
+        }
     }
 
     function filterItems(e) {
